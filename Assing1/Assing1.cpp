@@ -28,19 +28,6 @@ private:
         return newNode;
     }
 
-public:
-    node *head; // Sentinal node
-
-    // Constructor intializing the sentinal node
-    Polynomial()
-    {
-        head = new node;
-        head->next = head;
-        head->prev = head;
-        head->coeff = 0;
-        head->exp = -1;
-    }
-
     // Update the coefficient of the node with the given exponent or create a new node if not found
     node *updateNode(long long int coeff, long long int exp, node *curr)
     {
@@ -104,20 +91,8 @@ public:
         newNode->prev = last;
         newNode->next = head;
         head->prev = newNode;
-        
+
         size++;
-    }
-    
-    // input values to the list from standard input
-    void input(long long int n)
-    {
-        size = n;
-        for (long long int i = 0; i < n; i++)
-        {
-            long long int coeff, exp;
-            cin >> coeff >> exp;
-            appendNode(coeff, exp);
-        }
     }
 
     // Delete the node
@@ -132,6 +107,31 @@ public:
         delete curr;
 
         size--;
+    }
+
+public:
+    node *head; // Sentinal node
+
+    // Constructor intializing the sentinal node
+    Polynomial()
+    {
+        head = new node;
+        head->next = head;
+        head->prev = head;
+        head->coeff = 0;
+        head->exp = -1;
+    }
+
+    // input values to the list from standard input
+    void input(long long int n)
+    {
+        size = n;
+        for (long long int i = 0; i < n; i++)
+        {
+            long long int coeff, exp;
+            cin >> coeff >> exp;
+            appendNode(coeff, exp);
+        }
     }
 
     // print the list
@@ -222,6 +222,7 @@ public:
             delete temp;
             temp = next;
         }
+        head->next = head->prev = head;
     }
 };
 
@@ -243,7 +244,7 @@ int main()
     Polynomial result;
 
     // Toggle Additon and Multiplication per test case
-    // result.add(p, q);
+    /* result.add(p, q); */
     result.multiply(p, q);
 
     // print the resultant polynomial
