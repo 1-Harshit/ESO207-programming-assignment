@@ -1,0 +1,22 @@
+
+
+\section{Problem Statement}\label{Problem}
+
+\centering \textbf{\underline{Instructions}}
+
+\justifying
+Polynomials may be represented as linked lists. Consider a polynomial $p(x)$, with n non-zero terms,
+$$p(x) = a_1x^{e_1} +  a_2x^{e_2}  + . . . +  a_{n-1}x^{e_{n-1}}  +  a_n x^{e_n} $$
+where $0 \leq e_1 < e_2 < . . . < e_{n-1} < e_n$ are (non-negative) integers. We assume that coefficients $a_1, . . . , a_n$ are $non-zero$ integers. \vspace{5pt} \\
+Polynomial $p(x)$ can be represented as a linked list of nodes. Each node has three fields: coefficient, exponent and link to the next node. Let us assume that list is a doubly linked list, with sentinel node, sorted in ascending order of exponents.
+
+\begin{enumerate}[label=(\alph*)]
+\item Write pseudo-code to add two polynomials $p(x)$ and $q(x)$ in this representation. Your algorithm should take $O(n + m)$ time, where $n, m$ are the number of terms in $p(x), q(x)$ respectively. Implement your pseudo-code as an actual program.
+\item Write pseudo-code to multiply two polynomials $p(x)$ and $q(x)$ in this
+representation. Do runtime complexity analysis of your algorithm in terms of $n, m$, the
+number of terms in $p(x), q(x)$ respectively. State this complexity in ‘O’ notation.
+Implement your pseudo-code as an actual program.
+\end{enumerate}
+Note that output list should satisfy all constraints (non-zero coefficients, exponents in strict
+ascending order etc.) of representation of a polynomial. Make your code non-destructive, that
+is, it should not modify the lists for $p(x)$ and $q(x).$ 

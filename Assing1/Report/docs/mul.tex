@@ -1,0 +1,129 @@
+\section{Polynomial Multiplication Algorithm}
+\justifying
+Algorithm for Polynomial multiplication is mentioned in this section. During this we will be provided with two proper polynomials, sorted in ascending order of exponents.  The idea is to get a proper polynomial which is product of two polynomials.
+
+\subsection{Pseudo code}
+$head$ is the sentinel node of polynomial.
+
+\begin{lstlisting}
+    // multiply two polynomials
+    void multiply(Polynomial p1, Polynomial p2)
+    {
+        // loop though and multiply each
+        //term of p1 with each term of p2
+        //as p.head points to sentinel node 
+        node *temp1 = p1.head->next;
+        node *temp2 = p2.head->next;
+        while (temp1 != p1.head)
+        {
+            node *temp = head->next;
+            // temp keeps track of previous update in result
+            
+            while (temp2 != p2.head)
+            {
+                // temp keeps track of previous update in result
+                // keep updating nodes as required
+                temp = updateNode(temp1->coeff * temp2->coeff,
+                            temp1->exp + temp2->exp, temp);
+                temp2 = temp2->next;
+            }
+            // start p2 from the beginning
+            temp2 = p2.head->next;
+            temp1 = temp1->next;
+        }
+    }
+\end{lstlisting}
+
+\subsection{Helper Function for multiplication}
+
+$updateNode$ is a helper function for multiplication which inserts or modifies appropriate nodes of the result \textit{Polynomial}. It returns pointer to the next node of current update.
+
+\begin{lstlisting}
+    // Update the coefficient of existing node with the given 
+    // exponent or create a new node if not found
+    node *updateNode(int coeff, int exp, node *curr)
+    {
+        // loop till you add it somewhere
+        while (true)
+        {
+            //curr is pointer to next node from previous update
+            //if curr == head, it implies
+            // the new exponent is greater than the max exponent of  
+            // result and append this node at end of result
+            if (curr == head)
+            {
+                appendNode(coeff, exp);
+                return head;
+            }
+            else
+            {
+                // if the incoming exponent is equal to the current 
+                // node's exponent then update the coefficient
+                if (curr->exp == exp)
+                {
+                    curr->coeff += coeff;
+
+                    // if this makes coefficient to 0 
+                    // then remove the node
+                    if (curr->coeff == 0) deleteNode(curr);
+                    return nextNode;
+                }
+                // if the incoming exponent is greater than the curr  
+                // node's exponent then move to the next node
+                // as this is neither right place to insert 
+                // or to update coefficient 
+                else if (curr->exp < exp) curr = curr->next;
+                else if (curr->exp > exp)
+                {
+                    // the incoming exponent is less than curr
+                    // node's exponent then insert the node 
+                    // before the curr node
+                    node *newNode = createNode(coeff, exp);
+                    
+                    // Fix its links
+                    newNode->next = curr;
+                    newNode->prev = prev;
+                    prev->next = newNode;
+                    curr->prev = newNode;
+                
+                    // as curr could still be updated
+                    return curr;    
+                }
+            }
+        }
+    }
+\end{lstlisting}
+
+\subsection{Mathematical completeness}
+The idea of this too is simple. First keep multiplying each of the terms of 1st polynomial with each of 2nd polynomial and keep updating the result \textit{Polynomial}. We must observe that while looping through the inner polynomial, we just need to remember at which place the value from last iteration was inserted, as the polynomials are already sorted in ascending order, so all further iterations of inner loop have higher exponent terms than previous iterations. After the inner loop completes, we reset the pointer of polynomial 2 to the first term and run the next iteration of outer loop. The Resultant \textit{Polynomial} will also be a \textit{proper Polynomial} with ascending order of coefficients. \vspace{5pt} \\
+The $updateNode$ function is will Modify the coefficient of the node with the given exponent if it exists else it will create a new node and insert the node at appropriate place.
+ 
+\subsection{Complexity}
+The outer loop iterates through all the terms of polynomial p1. The inner loop multiplies each term of p2 with the term from outer loop, and updates the result. The $updateNode()$ function returns the node next to previous modification from previous iteration of inner loop and keeps track of it. We can consider a single iteration of inner loop and $updateNode()$ as a bloc, because each iteration of inner loop generates a higher exponent than previous iteration and as $updateNode()$ keeps track of previous modification in result $Polynomial$.
+So, in complete execution of inner loop, the $updateNode()$ function goes over the entire resultant \textit{Polynomial} only \textit{once}. \vspace{5pt} \\
+Say, n, m are the number of terms in $p(x), q(x)$ respectively. \vspace{5pt} \\
+To put it simply, the code looks like this:
+\begin{lstlisting}
+    loop(Polynomial p1)
+        loop(Polynomial p2)
+            updateNode(...)
+\end{lstlisting}
+This makes the complexity to be $O(nm)*O(updateNode)$. But complexity of $updateNode()$ not constant and dependent on the $pointer$\textit{(curr)} argument. Now, let's evaluate this in a different way. Let's consider the inner loop as one block instead of a loop and see the same algorithm in a different way.
+\begin{lstlisting}
+    loop(Polynomial p1)
+        // multiply current iteration term of p1 with 1st term of p2
+        node = multiply()
+        // search where in result polynomial node can be inserted
+        insert(node)
+        
+        [... so on m times ...]
+        
+        // multiply current iteration term of p1 with mth term of p2
+        node = multiply()
+        // search where in result polynomial node can be inserted
+        insert(node)
+\end{lstlisting}
+Here, clearly, the complexity is $O(n)*(O(m)+O(size(resultant Poly)))$. \vspace{5pt} \\
+The size of Result \textit{Polynomial} is also problem dependent. But the worse case scenario,  the maximum size of result polynomial will be $m*n$.\vspace{5pt} \\
+Hence, Complexity becomes $O(n)*(O(m)+O(mn))$ which can also be written as $O(mn^2)$. \vspace{5pt} \\
+Finally, \textbf{Complexity of this multiplication algorithm} is $O(mn^2)$.

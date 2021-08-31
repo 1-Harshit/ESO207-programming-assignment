@@ -1,0 +1,72 @@
+\section{Data Structure Used}
+\justifying
+\par
+In order to implement the problem statement an Abstract Data Type(ADT) \textbf{\textit{Polynomial}}. Each node of \textit{Polynomial} class(Doubly Linked List) has the following structure:
+
+\begin{lstlisting}
+    Struct Node {
+        int coeff;
+        int exp;
+        struct Node *next;
+        struct Node *prev;
+    }
+\end{lstlisting}
+
+\subsection{Sentinel Node}
+A sentinel node is a specifically designated node used with linked lists as a traversal path terminator.
+\begin{lstlisting}
+    // Constructor initializing the sentinel node
+    Polynomial() {
+        head = new node;
+        head->next = head;
+        head->prev = head;
+    }
+\end{lstlisting}
+
+\subsection{Input Method}
+This is a helper function to make linked list by taking input from standard input.
+\begin{lstlisting}
+    // input values to the list from standard input
+    void input(int n) {
+        for (int i = 0; i < n; i++) {
+            int coeff, exp;
+            cin >> coeff >> exp; // Scan coefficient and exponent
+            appendNode(coeff, exp); // Add the node to end of list
+        }
+    }
+\end{lstlisting}
+
+\subsection{Appending node to List}
+This helper function appends coefficient and exponent pair to the end of the polynomial.
+\begin{lstlisting}
+    // Append a node in the end of the list
+    void appendNode(int coeff, int exp) {
+        // if coeff is 0 then do not append
+        if (coeff == 0) return;
+        
+        // creating and appending the node
+        newNode = createNode(coeff, exp);
+        
+        // Last node is prev node of head(i.e. sentinal node)
+        last->next = newNode;
+        newNode->prev = last;
+        
+        // Link such that new node becomes last node
+        newNode->next = head;
+        head->prev = newNode;
+    }
+\end{lstlisting}
+
+\subsection{Delete Node from List}
+This helper function delete a particular node from the Linked list.
+\begin{lstlisting}
+    // Delete the node
+    void deleteNode(node *curr) {
+        // fix the links around the node
+        prev->next = next;
+        next->prev = prev;
+
+        // free the memory
+        delete curr;
+    }
+\end{lstlisting}

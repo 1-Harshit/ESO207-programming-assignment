@@ -1,0 +1,73 @@
+\section{Polynomial Addition Algorithm}
+Algorithm for Polynomial addition is mentioned in this section. During this we will be provided with two proper polynomials, sorted in ascending order of exponents. The idea is to get proper function which is addition of two polynomials.
+
+\subsection{Pseudo code}
+$head$ is the sentinel node of Polynomial.
+\begin{lstlisting}
+    // add two polynomials
+    void add(Polynomial p1, Polynomial p2) 
+    {
+        // loop thru the list of p1 and p2
+        node *temp1 = p1.head->next; 
+        //since p1.head points to sentinel node
+        node *temp2 = p2.head->next;
+        
+        // loop till the either of the loop reaches its end
+        while (temp1 != p1.head && temp2 != p2.head) 
+        {
+            // If exponent is same then add the coefficients
+            if (temp1->exp == temp2->exp)
+            {
+                // append this pair at end
+                appendNode(temp1->coeff + temp2->coeff, temp1->exp);
+                
+                // move to next node in both polynomials
+                temp1 = temp1->next;
+                temp2 = temp2->next;
+            }
+            // If exponent of p2 is greater than p1 
+            // then add the node of p1
+            else if (temp1->exp < temp2->exp) 
+            {
+                appendNode(temp1->coeff, temp1->exp);
+                // move to next node in polynomial1
+                temp1 = temp1->next;
+            }
+            // If exponent of p1 is greater than p2 
+            // then add the node of p2
+            else {
+                appendNode(temp2->coeff, temp2->exp);
+                // move to next node in polynomial2
+                temp2 = temp2->next;
+            }
+        }
+        
+        // when only p1 is left keep adding p1
+        // Simply append till end
+        while (temp1 != p1.head)
+        {
+            appendNode(temp1->coeff, temp1->exp);
+            temp1 = temp1->next;
+        }
+        
+        // when only p2 is left keep adding p2
+        // Simply append till end
+        while (temp2 != p2.head)
+        {
+            appendNode(temp2->coeff, temp2->exp);
+            temp2 = temp2->next;
+        }
+    }
+\end{lstlisting}
+
+\subsection{Mathematical Completeness}
+The idea is fairly simple. We first start with starting node of each polynomial. By definition, the starting node will have least value of exponent among all nodes and exponent keep on increasing as we go further.\vspace{5pt}
+\\
+Lets define \textit{active polynomials} as the part of a polynomial that is yet to be summed up. The first check is to determine which exponent among the already existing \textit{active} polynomials, is the least. The least is then appended to the end of the result so that the result is consistent to the idea of having exponents in ascending order. \vspace{5pt}
+\\
+In the event that the least exponent in both the polynomials are equal, their corresponding coefficients is summed and then appended. In the event that one of the polynomial is exhausted, we simple keep on appending nodes of other polynomial to result.
+
+\subsection{Complexity}
+Let's assume there are $m$ and $n$ terms in the two polynomials to be added. There are three loops one after the other in the pseudo code. The worst case complexity of first loop is $O(m+n-k)$ where $k$ is the number of elements which will be added in the individual second or third loop of the pseudo code (extra terms of one of the polynomials after other is exhausted). Only one of second or third loop would run if one of the polynomials has been appended fully. The overall worst case for all three loops together is when \textbf{all (m+n)} terms need to be appended separately. Therefore, complexity of addition algorithm is $O(m+n)$\vspace{5pt}
+\\
+Final complexity of the algorithm is $O(m+n)$, which is to be expected and is also indicated in the problem statement.

@@ -4,6 +4,9 @@ ESO207A: Data Structure &amp; Algorithm. Offered by Prof. Anil Seth in Fall 2021
 - [Harshit Raj](https://github.com/1-Harshit)
 - [Shubhan R](https://github.com/server-crash)
 
+# HackerRank
+- [HackerRank Course site](https://www.hackerrank.com/eso207a1)
+- [Group HackerRank ID](https://www.hackerrank.com/shubhanr20)
 # Duration: 
 - One entire semester (Fall 2021)
 - 8 weeks
