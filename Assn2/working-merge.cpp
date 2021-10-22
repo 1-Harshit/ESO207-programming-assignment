@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <stdlib.h>
 using namespace std;
 enum nodeType // node types
 {
@@ -379,13 +380,13 @@ int main()
 {
     TwoThreeTree<int> S1, S2, S;
     int p;
-    for (int i = 0; i < 500; i++)
+    for (int i = 1; i < 90; i++)
     {
-        S1.InsertRoot(i);
+        S1.InsertRoot(rand() % 100);
     }
-    for (int i = 50; i < 1000; i++)
+    for (int i = 100; i < 200; i++)
     {
-        S2.InsertRoot(i);
+        S2.InsertRoot(100 + rand() % 100);
     }
     S.Merge(S1, S2);
     S.Extract();
