@@ -73,9 +73,13 @@ two3node *newThreeNode(int MinLeft, int MinRight, two3node *left, two3node *mid,
 	return node;
 }
 
+<<<<<<< HEAD
 // Helper: a returns type for function containing 
 // 3 values i.e. 2 two3node and 1 value 
 class insrtn {
+=======
+class insrtn { //a special class used to return values in InsertRightNode and InsertLeftNode functions
+>>>>>>> 7f39684cda6ed5b767b5310c69186e1bce799db9
 public:
 	int val;
 	two3node *n2;
