@@ -60,7 +60,7 @@ two3node *newThreeNode(int MinLeft, int MinRight, two3node *left, two3node *mid,
 	return node;
 }
 
-class insrtn {
+class insrtn { //a special class used to return values in InsertRightNode and InsertLeftNode functions
 public:
 	int val;
 	two3node *n2;
