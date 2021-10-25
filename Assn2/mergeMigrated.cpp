@@ -1,8 +1,12 @@
+// File: source.cpp
+// Author: Shubhan R (shubhanr20@iitk.ac.in) 
+// Author: Harshit Raj (harshitr20@iitk.ac.in)
 #include <iostream>
 #include <queue>
 
 using namespace std;
 
+// Alias function to create a leaf node
 #define MakeSingleton newLeaf
 
 enum nodeType // node types
@@ -13,12 +17,21 @@ enum nodeType // node types
 	threenode
 };
 
+// Node structure
 struct two3node {
 	nodeType type;
 	int val; // only for leaf node--holds value
 	int val1, val2; // it is min1, min2
 	two3node *left, * mid, * right;
 };
+
+/* 
+	FUCNTIONS TO CREATE NEW NODES 
+	*newNilNode
+	*newLeaf
+	*newTwoNode
+	*newThreeNode
+*/
 
 two3node *newNilNode() {
 	two3node *node = new two3node;
@@ -60,6 +73,8 @@ two3node *newThreeNode(int MinLeft, int MinRight, two3node *left, two3node *mid,
 	return node;
 }
 
+// Helper: a returns type for function containing 
+// 3 values i.e. 2 two3node and 1 value 
 class insrtn {
 public:
 	int val;
@@ -73,6 +88,12 @@ public:
 };
 
 two3node *nilnodespl = newNilNode(); // acts as special node of type nil in the following functions
+
+/* 
+	HELPER FUNCTION for merge function
+	*InsertRightNode
+	*InsertLeftNode
+*/
 
 insrtn InsertRightNode(two3node *r1, two3node *r2, int h1, int h2, int min2) {
 	if (h1 == h2) {
@@ -112,6 +133,12 @@ insrtn InsertLeftNode(two3node *r1, two3node *r2, int h1, int h2, int min2) {
 	}
 	return insrtn(nilnodespl, nilnodespl, 0);
 }
+
+/* 
+	MERGE FUNCTION
+	Merge two trees where elements of second tree
+	are strictly greater than elements of first tree
+*/
 two3node *Merge(two3node *S1, two3node *S2) {
 	if (S1 -> type == nil) // when S1 is empty tree
 	{
@@ -122,8 +149,6 @@ two3node *Merge(two3node *S1, two3node *S2) {
 		return S1;
 	}
 
-	two3node *root = newNilNode();
-
 	int h1 = 0, h2 = 0; // heights of tree
 	int min1, min2; // mimimum of both trees
 	two3node *yo = S1; // dummy pointer to to find height and min
@@ -132,36 +157,39 @@ two3node *Merge(two3node *S1, two3node *S2) {
 		yo = yo -> left;
 		h1++;
 	}
-
 	min1 = yo -> val;
+	
 	yo = S2;
 	while (yo -> type != leaf) {
 		yo = yo -> left;
 		h2++;
 	}
 	min2 = yo -> val;
+
 	if (h1 == h2) {
-		root = newTwoNode(min2, S1, S2);
-	} else if (h1 > h2) // insert S2 inside S1
-	{
+		return newTwoNode(min2, S1, S2);
+	} else if (h1 > h2) { // insert S2 inside S1
 		insrtn rn = InsertRightNode(S1, S2, h1, h2, min2);
 		if (rn.n2 -> type == nil) {
-			root = rn.n1;
+			return rn.n1;
 		} else {
-			root = newTwoNode(rn.val, rn.n1, rn.n2);
+			return newTwoNode(rn.val, rn.n1, rn.n2);
 		}
 	} else if (h1 < h2) {
 		insrtn rn = InsertLeftNode(S1, S2, h1, h2, min2);
 		if (rn.n2 -> type == nil) {
-			root = rn.n1;
+			return rn.n1;
 		} else {
-			root = newTwoNode(rn.val, rn.n1, rn.n2);
+			return newTwoNode(rn.val, rn.n1, rn.n2);
 		}
 	}
-	return root;
 }
 
 void Extract(two3node *Tree) {
+	if (Tree -> type == nil) {
+		return;
+	}
+
 	queue < two3node *> nodes;
 	nodes.push(Tree);
 
@@ -186,18 +214,26 @@ void Extract(two3node *Tree) {
 	return;
 }
 
-int main() {
+void test() {
 	two3node *S1, * S2, * S;
-	S1 = S2 = S = newNilNode();
+	S = newNilNode();
 
-	for (int i = 0; i < 10; i++) {
+	S1 = MakeSingleton(1);
+	for (int i = 2; i <= 500 ; i++) {
 		S1 = Merge(S1, MakeSingleton(i));
 	}
-	for (int i = 15; i < 25; i++) {
+
+	S2 = MakeSingleton(777);
+	for (int i = 778; i <= 1000; i++) {
 		S2 = Merge(S2, MakeSingleton(i));
 	}
+
 	S = Merge(S1, S2);
 
 	Extract(S);
+}
+
+int main() {
+	test();
 	return 0;
 };
