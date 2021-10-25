@@ -214,25 +214,6 @@ void Extract(two3node *Tree) {
 	return;
 }
 
-void test() {
-	two3node *S1, *S2, *S;
-	S = newNilNode();
-
-	S1 = MakeSingleton(1);
-	for (int i = 2; i <= 500 ; i++) {
-		S1 = Merge(S1, MakeSingleton(i));
-	}
-
-	S2 = MakeSingleton(777);
-	for (int i = 778; i <= 1000; i++) {
-		S2 = Merge(S2, MakeSingleton(i));
-	}
-
-	S = Merge(S1, S2);
-
-	Extract(S);
-}
-
 void customTest() {
 	int s1Begin, s1End, s2Begin, s2End;
 	two3node *S1, *S2, *S;
@@ -265,6 +246,25 @@ void customTest() {
 	}
 	S2 = MakeSingleton(s2Begin);
 	for (int i = s2Begin + 1; i <= s2End ; i++) {
+		S2 = Merge(S2, MakeSingleton(i));
+	}
+
+	S = Merge(S1, S2);
+
+	Extract(S);
+}
+
+void test() {
+	two3node *S1, *S2, *S;
+	S = newNilNode();
+
+	S1 = MakeSingleton(1);
+	for (int i = 2; i <= 500 ; i++) {
+		S1 = Merge(S1, MakeSingleton(i));
+	}
+
+	S2 = MakeSingleton(777);
+	for (int i = 778; i <= 1000; i++) {
 		S2 = Merge(S2, MakeSingleton(i));
 	}
 
