@@ -183,6 +183,7 @@ two3node *Merge(two3node *S1, two3node *S2) {
 			return newTwoNode(rn.val, rn.n1, rn.n2);
 		}
 	}
+	return nilnodespl;
 }
 
 void Extract(two3node *Tree) {
