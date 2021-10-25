@@ -197,10 +197,10 @@ void Extract(two3node *Tree) {
 	while (!nodes.empty()) {
 		two3node *temp = nodes.front();
 		if (temp -> type == nil) {
-			cerr << "this shouldn't have happened";
+			cerr << "this shouldn't have happened" << endl;
 			return;
 		} else if (temp -> type == leaf) {
-			cout << temp -> val << " ";
+			cout << temp -> val << endl;
 		} else if (temp -> type == twonode) {
 			nodes.push(temp -> left);
 			nodes.push(temp -> right);
@@ -211,7 +211,6 @@ void Extract(two3node *Tree) {
 		}
 		nodes.pop();
 	}
-	cout << endl;
 	return;
 }
 
@@ -234,7 +233,48 @@ void test() {
 	Extract(S);
 }
 
+void customTest() {
+	int s1Begin, s1End, s2Begin, s2End;
+	two3node *S1, *S2, *S;
+	S = newNilNode();
+
+	cout << "Enter the first element of set in first tree: ";
+	cin >> s1Begin;
+	cout << "Enter the last element of set in first tree: ";
+	cin >> s1End;
+	if (s1Begin > s1End) {
+		cerr << "Invalid input" << endl;
+		return;
+	}
+	S1 = MakeSingleton(s1Begin);
+	for (int i = s1Begin + 1; i <= s1End ; i++) {
+		S1 = Merge(S1, MakeSingleton(i));
+	}
+
+	cout << "Enter the first element of set in second tree: ";
+	cin >> s2Begin;
+	if (s1End > s2Begin) {
+		cerr << "Invalid input" << endl;
+		return;
+	}
+	cout << "Enter the last element of set in second tree: ";
+	cin >> s2End;
+	if (s1Begin > s2End) {
+		cerr << "Invalid input" << endl;
+		return;
+	}
+	S2 = MakeSingleton(s2Begin);
+	for (int i = s2Begin + 1; i <= s2End ; i++) {
+		S2 = Merge(S2, MakeSingleton(i));
+	}
+
+	S = Merge(S1, S2);
+
+	Extract(S);
+}
+
 int main() {
 	test();
+	// customTest();
 	return 0;
 };
