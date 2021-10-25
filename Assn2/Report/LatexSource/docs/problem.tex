@@ -1,0 +1,37 @@
+
+
+\section{Problem Statement}\label{Problem}
+
+\centering \textbf{\underline{Instructions}} \\ \justifying
+Notation: Height of a tree $T$ is denoted by $h(T)$. For a set $S, |S|$ stands for number of elements in $S$. \\
+You are given $2-3$ trees $T_{1}$ and $T_{2}$, representing respectively finite sets $S_{1}$, $S_{2}$ of natural numbers. Further, it is given that for all $x \in S_{1}$ and for all $y \in S_{2}, x < y$.
+\begin{enumerate}[label=(\alph*)]
+    \item Write pseudo-code for the algorithm $Merge(T_{1}, T_{2})$. $Merge(T_{1}, T_{2})$ should return a $2-3$ tree representation of set $S_{1} \cup S_{2}$. Your algorithm should take $O(h(T_{1}) + h(T_{2}))$ time. Justify time complexity of your algorithm.
+    \item Implement your algorithm of part (a) as an executable function $Merge(T_{1}, T_{2})$. You are not allowed to use any library function in this implementation. \\
+    To help you write this code, you may divide it into several smaller functions. A modular and hierarchical design is encouraged.
+\end{enumerate}
+For allowing us to test your program easily, you need to design following two functions. You need to submit just the working programs for these functions. No pseudo code for these is required. You may also use library functions (for example queue data structure) for these programs.
+
+\begin{itemize}
+    \item   \textbf{fun} Extract($T$). \\
+            \textbf{Input:} $T$ is a 2-3 tree. \\ 
+            \textbf{action of program:} Extract($T$) prints elements of the set represented by $T$ is ascending order.
+    
+    \item   \textbf{fun} MakeSingleton($x$) \\
+            \textbf{Input:} $x$ is a number. \\
+            \textbf{Output:} MakeSingleton($x$) returns a 2-3 tree representing set $\{x\}$
+\end{itemize}
+Please test your program using following function Test.
+\begin{lstlisting}
+    T = MakeSingleton(1)
+    for i = 2 to 500
+        T= Merge(T,MakeSingleton(i))
+        
+    U = MakeSingleton(777)
+    for i = 778 to 1000
+        U= Merge(U,MakeSingleton(i))
+        
+    V=Merge(U,T)
+    Extract(V)
+\end{lstlisting}
+Executing Test() should output 1, 2, 3, ..., 500, 777, 778, ..., 1000.

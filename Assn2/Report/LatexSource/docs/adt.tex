@@ -1,0 +1,30 @@
+\section{Data Structure Used}
+\justifying
+\par
+In order to implement the 2-3 tree the following node was used. Each node has the following structure:
+
+\begin{lstlisting}
+    struct two3node {
+    	nodeType type
+    	int val         // only for leaf node--holds value
+    	int val1, val2  // it is min1, min2
+    	two3node *left, *mid, *right
+    }
+\end{lstlisting}
+The 2-3 tree we used here is just a pointer to the root node
+\subsection{Helper Functions}
+Following standard function were used during this algorithm
+\subsubsection{New Nodes}
+\begin{itemize}
+    \item \codeword{newNilNode()} creates and returns a new nil node.
+    \item \codeword{newLeaf(v)} creates and returns a new leaf node with value $v$ (aliased as \codeword{MakeSingleton})
+    \item \codeword{newTwoNode(rMin, lChild, rChild)}  creates and returns a new two node with given parameters 
+    \item \codeword{newThreeNode(mMin, rMin, lChild, mChild, rChild)} creates and returns a new three node with given parameters
+\end{itemize}
+
+\subsubsection{Height and Minimum value of Tree}
+\codeword{GetHeightAndMin(T)} returns height and value of minimum element of Tree. This is done by traversing to left child of each node until we reach the bottom most leaf node. The value of leaf node is minimum element of Tree and depth of that node is the height of tree.
+
+
+\subsubsection{Extract Set}
+\codeword{Extract(T)} prints elements of the set represented by $T$ is ascending order. Implemented using level wise traversal algorithm with queue.

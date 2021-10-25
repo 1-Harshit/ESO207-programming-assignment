@@ -1,0 +1,121 @@
+\section{Tree Merge Algorithm}
+Algorithm for two 2-3 trees merge is mentioned in this section. During this we will be provided with two trees, all elements of second is strictly greater than first.
+
+\subsection{Pseudo code}
+\codeword{Merge} function returns the root of the merged tree.
+\codeword{InsertLeftNode} and \codeword{InsertRightNode} are two helper functions.
+\begin{lstlisting}
+Merge(tree1, tree2) {
+    if (tree1.type == nil) // when tree1 is empty tree
+    	return tree2
+    if (tree2.type == nil) // when tree2 is empty tree
+    	return tree1
+    
+    (h1, min1) = GetHeightAndMin(tree1)
+    (h2, min2) = GetHeightAndMin(tree2)
+    
+    if (h1 == h2)
+    	return newTwoNode(min2, tree1, tree2)
+    else if (h1 > h2) 
+        // insert tree2 inside tree1
+    	(n1, n2, val) = InsertRightNode(tree1, tree2, h1, h2, min2);
+    
+    	if (n2.type == nil) return n1;
+    	else return newTwoNode(val, n1, n2);
+    else
+        // insert tree1 inside tree2
+    	(n1, n2, val) = InsertLeftNode(tree1, tree2, h1, h2, min2);
+    	
+    	if (n2.type == nil) return n1;
+    	else return newTwoNode(val, n1, n2);
+}
+\end{lstlisting}
+
+\subsection{Helper Function for Merge}
+There are two helper function \codeword{InsertLeftNode} and \codeword{InsertRightNode} both in theory does exactly same thing. Both of them return two \textit{trees} and a value, which is minimum element of second tree. To not create unused nodes, we have made a global nil node called \codeword{nilNode} which is used to return nil nodes in the function.
+
+\subsubsection{Insert Node to Left}
+\begin{lstlisting}
+InsertLeftNode(r1, r2, h1, h2, min2) {
+    if (h1 == h2)
+        return (r1, r2, min2)
+    
+    // call recursively till you are at same level 
+    
+    (n1, n2, val) = InsertLeftNode(r1, r2.left, h1, h2 - 1, min2) 
+    //height of new r2 is h2-1
+    
+    if (n2.type == nil)
+        r2.left = n1    // update left node
+        return (r2, nilNode, 0)
+    else
+        if (r2.type == twonode)
+            return (newThreeNode(val, r2.val1, n1, n2, r2.right), 
+                    nilNode, 0)
+    	else if (r2.type == threenode) 
+            return (newTwoNode(val, n1, n2), 
+                    newTwoNode(r2.val2, r2.mid, r2.right), 
+                    r2.val1)
+
+    return (nilNode, nilNode, 0)
+}
+\end{lstlisting}
+
+\subsubsection{Insert Node to Right}
+\begin{lstlisting}
+InsertRightNode(r1, r2, h1, h2, min2) {
+    if (h1 == h2)
+        return (r1, r2, min2)
+
+    (n1, n2, val) = InsertRightNode(r1.right, r2, h1 - 1, h2, min2) 
+    //height of new r1 is h1-1
+
+    if (n2.type == nil)
+        r1.right = n1
+        return (r1, nilNode, 0)
+    else
+        if (r1.type == twonode)
+            return (newThreeNode(r1.val1, val, r1.left, n1, n2), 
+                    nilNode, 0)
+        else if (r1.type == threenode) 
+            return (newTwoNode(r1.val1, r1.left, r1.mid), 
+                    newTwoNode(val, n1, n2), 
+                    r1.val2)
+            
+    return (nilNode, nilNode, 0)
+}
+
+\end{lstlisting}
+
+\subsection{Mathematical Completeness}
+Our algorithm goes along the lines of \codeword{InsertRoot} function explained in the lectures. 
+\begin{itemize}
+    \item If $h1 > h2$, we invoke \codeword{InsertRightNode} which finds the right most node of $tree1$ at appropriate height ($h2+1$) and inserts $tree2$ there.
+    \item If $h1 < h2$, we use \codeword{InsertLeftNode} which finds the left most node of $tree2$ at appropriate height ($h1+1$) and inserts $tree1$ there.
+    \item If $h1 == h2$, we can not insert one tree into the other, so we create a new two node with $tree1$ and $tree2$ as the left and right child respectively.
+\end{itemize}
+and return it. \\
+In \codeword{InsertRightNode}, we keep track of what happens to a node - whether it remains as an intact node or splits into two.
+Here we use the words node and tree interchangeably as every node is a tree. We keep recursively calling till we reach the right most node of tree1 at height h2. Each iteration of this function returns 3 values \codeword{(node1, node2, val)} where $val$ is minimum element in tree of $node2$. 
+\begin{itemize}
+    \item If the node in current iteration doesn't split and is just modified, it returns \codeword{(modifiedNode, nilNode, -)}.
+    \item If is splits, it returns \codeword{(leftSplitNode, rightSplitNode, min_of_rightSplitNode)}.
+    \item The \textit{base case} is when both the trees are at same height and it returns \codeword{(node of tree1 at height h2, root of tree2, minimum value of tree2)}. 
+\end{itemize}  
+Similarly for the explanation of \codeword{InsertLeftNode}, where we recursively call till the left most node of $tree2$ at height h1 and return appropriate nodes.
+\subsection{Complexity}
+Calculation of complexity of merge function is as follows:
+\vspace{5pt}
+\\
+$$O(Merge)=O(1) + O(GetHeightAndMin(tree1)) + O(GetHeightAndMin(tree2)) + $$
+$$  O(InsertLeftNode)\text{ or }O(InsertRightNode))$$
+To get Height and Minimum element we just have to traverse from root to leaf once which will take $O(h(tree))$ time. 
+\vspace{5pt}
+\\
+Complexity of \codeword{InsertLeftNode} is $O(recursionDepth)$ and recursion base case is achieved when height of both parameters matches. Hence, the recursion depth is difference in height of trees. This implies $O(InsertLeftNode) = O(|h1-h2|)$
+\vspace{5pt}
+\\
+Similarly, Complexity of \codeword{InsertRightNode} is $O(recursionDepth)  = O(|h1-h2|)$
+$$\implies O(Merge)= O(h1) + O(h2) + O(|h1-h2|)$$
+$$\implies O(Merge)= O(h1 + h2)$$
+Final complexity of the algorithm is $O(h1+h2)$, which is to be expected and is also indicated in the problem statement.
