@@ -1,7 +1,7 @@
-// File:   Assingment3.cpp
+// File:   Bipartition.cpp
 // Date: Nov 8, 2021
-// Author: Shubhan R (shubhanr20@iitk.ac.in) 
 // Author: Harshit Raj (harshitr20@iitk.ac.in)
+// Author: Shubhan R (shubhanr20@iitk.ac.in) 
 
 #include<iostream>
 using namespace std;
@@ -63,6 +63,7 @@ public:
 // graph class
 class Graph
 {
+private:
 	AdjacencyList *arr;
 	int N, E;
 
